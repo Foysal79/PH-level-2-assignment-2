@@ -25,7 +25,33 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+// get all products
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const { searchTerm } = req.query;
+    let searchTermString: string | undefined;
+
+    if (typeof searchTerm === "string") {
+      searchTermString = searchTerm;
+    }
+    const result = await productServices.getAllProductFromDB(searchTermString);
+    res.status(200).json({
+      success: true,
+      message: searchTerm
+        ? `Products matching search term '${searchTerm}' fetched successfully!`
+        : "Products fetched successfully!",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
+};
 
 export const productControllers = {
   createProduct,
+  getAllProduct
 };
