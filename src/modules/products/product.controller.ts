@@ -70,8 +70,42 @@ const getProductById = async (req: Request, res: Response) => {
   }
 };
 
+// Update Product Information
+const updateProductById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId;
+    const updatedProductData = req.body;
+
+    const verifyUpdateData = ProductValidationSchema.parse(updatedProductData);
+
+    const result = await productServices.updateProductFromDB(
+      id, verifyUpdateData );
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found!",
+        data: null,
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Product updated successfully!",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
+};
+
 export const productControllers = {
   createProduct,
   getAllProduct,
-  getProductById
+  getProductById,
+  updateProductById
 };
