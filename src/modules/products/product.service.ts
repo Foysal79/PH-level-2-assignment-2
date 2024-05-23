@@ -30,9 +30,16 @@ const getAllProductFromDB = async (search: string | undefined) => {
   return products;
 };
 
+// product searching by specific product ID
+const getProductByIdFromDB = async (id: string) => {
+  const result = await ProductModel.findById(id);
+  return result;
+};
+
 
 
 export const productServices = {
   createProductIntoDB,
-  getAllProductFromDB
+  getAllProductFromDB,
+  getProductByIdFromDB
 };
