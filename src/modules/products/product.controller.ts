@@ -19,13 +19,13 @@ const createProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something is wrong",
+      message: "Something went wrong",
       error: error,
     });
   }
 };
 
-// get all products
+// get all products and searchTerm
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
@@ -103,9 +103,39 @@ const updateProductById = async (req: Request, res: Response) => {
   }
 };
 
+// Delete Product by Id
+const productDelete = async (req: Request, res: Response) => {
+  try {
+    const deleteId = req.params.productId;
+    const result = await productServices.productDeleteFromDB(deleteId);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+        data: null,
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Product deleted successfully!",
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      data: null,
+    });
+  }
+};
+
+
 export const productControllers = {
   createProduct,
   getAllProduct,
   getProductById,
-  updateProductById
+  updateProductById,
+  productDelete
 };

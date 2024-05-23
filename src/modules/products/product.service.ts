@@ -8,12 +8,12 @@ const createProductIntoDB = async (product: Product) => {
   return result;
 };
 
-// get all Products
-const getAllProductFromDB = async (search: string | undefined) => {
+// get all Products and sleeted item search 
+const getAllProductFromDB = async (searchTerm: string | undefined) => {
   let products;
 
-  if (search) {
-    const searchRegex = new RegExp(search as string, "i");
+  if (searchTerm) {
+    const searchRegex = new RegExp(searchTerm as string, "i");
 
     products = await ProductModel.find({
       $or: [
@@ -48,6 +48,12 @@ const updateProductFromDB = async (
   return result;
 };
 
+// Delete Product by Id
+const productDeleteFromDB = async (deleteId: string) => {
+  const result = await ProductModel.findByIdAndDelete(deleteId);
+  return result;
+};
+
 
 
 
@@ -55,5 +61,6 @@ export const productServices = {
   createProductIntoDB,
   getAllProductFromDB,
   getProductByIdFromDB,
-  updateProductFromDB
+  updateProductFromDB,
+  productDeleteFromDB
 };
