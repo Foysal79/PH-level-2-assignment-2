@@ -1,8 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { Order } from "./order.interface";
 
-
-// Create a Mongoose schema for the Order interface
+// Create a Mongoose schema for the Order
 const orderSchema = new Schema<Order>({
   email: { type: String, required: true },
   productId: { type: String, required: true },
@@ -10,5 +9,5 @@ const orderSchema = new Schema<Order>({
   quantity: { type: Number, required: true },
 });
 
-// Create Mongoose model from the schema
+// Create a Mongoose model from the schema
 export const OrderModel = mongoose.model<Order>("Order", orderSchema);
